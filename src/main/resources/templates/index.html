@@ -1,0 +1,1573 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LunarisRP — Um universo além do comum</title>
+
+    <meta name="description"
+          content="LunarisRP é um universo de Minecraft Roleplay onde reinos, magia, dragões e histórias se encontram.">
+
+    <link rel="icon" type="image/png" href="/images/lunaris-icon.png">
+
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        /* ================================
+           CONFIGURAÇÕES GERAIS
+        ================================= */
+
+        :root {
+            --background: #090a10;
+            --background-light: #11131d;
+            --surface: #171923;
+
+            --fire: #d75a36;
+            --fire-light: #ff9b58;
+
+            --ice: #76c9e8;
+            --ice-light: #c0eaff;
+
+            --gold: #c7a66c;
+            --white: #e9e8ed;
+            --muted: #a3a3ad;
+
+            --font-title: 'Cinzel', serif;
+            --font-text: 'Inter', sans-serif;
+            --font-lore: 'Cormorant Garamond', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--white);
+            font-family: var(--font-text);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .container {
+            width: min(1180px, 90%);
+            margin: auto;
+        }
+
+        .section {
+            padding: 110px 0;
+            position: relative;
+        }
+
+        .section-label {
+            color: var(--gold);
+            font-family: var(--font-title);
+            font-size: 12px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            font-family: var(--font-title);
+            font-size: clamp(30px, 5vw, 48px);
+            font-weight: 500;
+            line-height: 1.3;
+        }
+
+        .section-description {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.9;
+            max-width: 650px;
+            margin-top: 20px;
+        }
+
+        .gold-text {
+            color: var(--gold);
+        }
+
+        .ice-text {
+            color: var(--ice);
+        }
+
+        .fire-text {
+            color: var(--fire-light);
+        }
+
+        /* ================================
+           FUNDO E EFEITOS
+        ================================= */
+
+        .ambient-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: .10;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .glow-fire {
+            background: var(--fire);
+            top: 10%;
+            left: -300px;
+        }
+
+        .glow-ice {
+            background: var(--ice);
+            right: -300px;
+            top: 55%;
+        }
+
+        .ornament {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--gold),
+                transparent
+            );
+            opacity: .45;
+            margin: 55px 0;
+        }
+
+        /* ================================
+           NAVBAR
+        ================================= */
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(9, 10, 16, .85);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(199, 166, 108, .15);
+        }
+
+        .navbar {
+            min-height: 86px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .brand img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-family: var(--font-title);
+            font-size: 21px;
+            letter-spacing: 3px;
+        }
+
+        .brand-subtitle {
+            display: block;
+            font-size: 9px;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-top: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #c4c3cc;
+            transition: .3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-button {
+            padding: 13px 22px;
+            border: 1px solid var(--gold);
+            color: var(--gold) !important;
+            transition: .3s;
+        }
+
+        .nav-button:hover {
+            background: var(--gold);
+            color: var(--background) !important;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            color: white;
+            border: none;
+            font-size: 27px;
+            cursor: pointer;
+        }
+
+        /* ================================
+           HERO
+        ================================= */
+
+        .hero {
+            min-height: 850px;
+            height: 100vh;
+            max-height: 1050px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+
+            background:
+                radial-gradient(
+                    ellipse at 75% 50%,
+                    rgba(75, 112, 150, .16),
+                    transparent 55%
+                ),
+                radial-gradient(
+                    ellipse at 15% 80%,
+                    rgba(175, 65, 37, .13),
+                    transparent 45%
+                ),
+                linear-gradient(
+                    110deg,
+                    #090a10 10%,
+                    #10121d 60%,
+                    #090a10
+                );
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(
+                    90deg,
+                    rgba(9, 10, 16, .95),
+                    rgba(9, 10, 16, .65),
+                    rgba(9, 10, 16, .2)
+                ),
+                url('/images/junko.png');
+
+            background-size: cover;
+            background-position: center;
+            opacity: .48;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(
+                transparent,
+                var(--background)
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 760px;
+            padding-top: 90px;
+        }
+
+        .hero-emblem {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 25px rgba(118, 201, 232, .25));
+        }
+
+        .hero-overline {
+            font-family: var(--font-title);
+            font-size: 12px;
+            letter-spacing: 6px;
+            color: var(--gold);
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-title);
+            font-size: clamp(45px, 8vw, 86px);
+            font-weight: 500;
+            line-height: 1.15;
+            letter-spacing: 3px;
+        }
+
+        .hero h1 span {
+            display: block;
+            background: linear-gradient(
+                90deg,
+                var(--ice-light),
+                var(--white),
+                var(--fire-light)
+            );
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 560px;
+            color: #c1c0ca;
+            font-family: var(--font-lore);
+            font-size: 23px;
+            line-height: 1.6;
+            margin-top: 25px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 18px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            padding: 16px 29px;
+            font-family: var(--font-title);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: .3s;
+        }
+
+        .button-primary {
+            color: #101016;
+            background: linear-gradient(
+                110deg,
+                var(--ice),
+                #d8e9ed,
+                var(--fire-light)
+            );
+        }
+
+        .button-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 35px rgba(118, 201, 232, .15);
+        }
+
+        .button-outline {
+            border: 1px solid rgba(199, 166, 108, .65);
+            color: var(--gold);
+        }
+
+        .button-outline:hover {
+            background: rgba(199, 166, 108, .12);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* ================================
+           INTRODUÇÃO
+        ================================= */
+
+        .introduction {
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .introduction .section-description {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .intro-quote {
+            max-width: 850px;
+            margin: 40px auto 0;
+            padding: 35px;
+            border-top: 1px solid rgba(199, 166, 108, .35);
+            border-bottom: 1px solid rgba(199, 166, 108, .35);
+            font-family: var(--font-lore);
+            font-size: clamp(23px, 4vw, 34px);
+            font-style: italic;
+            color: #d9d4ce;
+            line-height: 1.5;
+        }
+
+        /* ================================
+           UNIVERSO
+        ================================= */
+
+        .universe {
+            background:
+                linear-gradient(
+                    180deg,
+                    transparent,
+                    rgba(20, 22, 33, .7),
+                    transparent
+                );
+        }
+
+        .universe-header {
+            margin-bottom: 55px;
+        }
+
+        .universe-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .universe-card {
+            position: relative;
+            height: 440px;
+            overflow: hidden;
+            border: 1px solid rgba(199, 166, 108, .2);
+            background: var(--surface);
+        }
+
+        .universe-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .8s;
+        }
+
+        .universe-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .universe-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                transparent 25%,
+                rgba(8, 9, 15, .95)
+            );
+        }
+
+        .card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 30px;
+            z-index: 2;
+        }
+
+        .card-content span {
+            color: var(--gold);
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .card-content h3 {
+            font-family: var(--font-title);
+            font-size: 24px;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+
+        .card-content p {
+            color: #b7b5bf;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-top: 10px;
+        }
+
+        /* ================================
+           ELEMENTOS
+        ================================= */
+
+        .elements-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 55px;
+        }
+
+        .element-card {
+            padding: 50px 40px;
+            position: relative;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, .07);
+        }
+
+        .element-card.fire {
+            border-top: 2px solid var(--fire);
+            background: linear-gradient(
+                140deg,
+                rgba(155, 54, 36, .14),
+                var(--surface) 75%
+            );
+        }
+
+        .element-card.ice {
+            border-top: 2px solid var(--ice);
+            background: linear-gradient(
+                140deg,
+                rgba(68, 144, 180, .14),
+                var(--surface) 75%
+            );
+        }
+
+        .element-symbol {
+            font-family: var(--font-title);
+            font-size: 44px;
+            margin-bottom: 25px;
+        }
+
+        .fire .element-symbol {
+            color: var(--fire-light);
+        }
+
+        .ice .element-symbol {
+            color: var(--ice);
+        }
+
+        .element-card h3 {
+            font-family: var(--font-title);
+            font-size: 26px;
+            font-weight: 500;
+        }
+
+        .element-card p {
+            color: var(--muted);
+            line-height: 1.9;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        /* ================================
+           EXPERIÊNCIA
+        ================================= */
+
+        .experience {
+            background:
+                radial-gradient(
+                    ellipse at center,
+                    rgba(74, 77, 109, .12),
+                    transparent 65%
+                );
+        }
+
+        .experience-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 70px;
+            margin-top: 55px;
+        }
+
+        .experience-image {
+            height: 470px;
+            position: relative;
+        }
+
+        .experience-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid rgba(199, 166, 108, .3);
+        }
+
+        .experience-image::before {
+            content: "";
+            position: absolute;
+            inset: -12px;
+            border: 1px solid rgba(199, 166, 108, .25);
+            pointer-events: none;
+        }
+
+        .experience-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .experience-item {
+            display: flex;
+            gap: 22px;
+        }
+
+        .experience-number {
+            font-family: var(--font-title);
+            font-size: 24px;
+            color: var(--gold);
+        }
+
+        .experience-item h3 {
+            font-family: var(--font-title);
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .experience-item p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+            margin-top: 9px;
+        }
+
+        /* ================================
+           GALERIA
+        ================================= */
+
+        .gallery-header {
+            margin-bottom: 45px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            grid-template-rows: 260px 260px;
+            gap: 18px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .gallery-item:first-child {
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .7s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.06);
+        }
+
+        .gallery-item::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                transparent 60%,
+                rgba(0, 0, 0, .65)
+            );
+        }
+
+        .gallery-caption {
+            position: absolute;
+            z-index: 2;
+            bottom: 20px;
+            left: 23px;
+            font-family: var(--font-title);
+            font-size: 15px;
+        }
+
+        /* ================================
+           COMUNIDADE
+        ================================= */
+
+        .community {
+            text-align: center;
+            padding: 130px 0;
+            background:
+                radial-gradient(
+                    ellipse at 50% 100%,
+                    rgba(139, 75, 58, .15),
+                    transparent 60%
+                );
+        }
+
+        .community .section-description {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .community-symbol {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin: 0 auto 30px;
+        }
+
+        .community .hero-actions {
+            justify-content: center;
+        }
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        footer {
+            border-top: 1px solid rgba(199, 166, 108, .2);
+            background: #07080d;
+            padding: 50px 0 25px;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-brand img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .footer-brand h3 {
+            font-family: var(--font-title);
+            letter-spacing: 3px;
+            font-size: 17px;
+        }
+
+        .footer-brand p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            font-size: 12px;
+            color: var(--muted);
+            transition: .3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--gold);
+        }
+
+        .copyright {
+            text-align: center;
+            color: #656570;
+            font-size: 11px;
+            margin-top: 45px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, .05);
+        }
+
+        /* ================================
+           RESPONSIVIDADE
+        ================================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                gap: 18px;
+            }
+
+            .universe-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .experience-layout {
+                gap: 40px;
+            }
+
+            .experience-image {
+                height: 400px;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                min-height: 75px;
+            }
+
+            .brand img {
+                width: 43px;
+                height: 43px;
+            }
+
+            .brand-name {
+                font-size: 17px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 75px;
+                left: 0;
+                width: 100%;
+                padding: 30px;
+                background: #0d0e15;
+                border-bottom: 1px solid rgba(199, 166, 108, .2);
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero {
+                min-height: 750px;
+                height: auto;
+            }
+
+            .hero-content {
+                padding-top: 140px;
+                padding-bottom: 130px;
+            }
+
+            .hero-description {
+                font-size: 20px;
+            }
+
+            .section {
+                padding: 80px 0;
+            }
+
+            .universe-grid,
+            .elements-grid,
+            .experience-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .universe-card {
+                height: 390px;
+            }
+
+            .element-card {
+                padding: 35px 28px;
+            }
+
+            .experience-image {
+                height: 350px;
+                margin: 10px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(3, 280px);
+            }
+
+            .gallery-item:first-child {
+                grid-row: auto;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-scroll {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 420px) {
+
+            .hero h1 {
+                font-size: 43px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="ambient-glow glow-fire"></div>
+<div class="ambient-glow glow-ice"></div>
+
+<!-- ================================
+     NAVEGAÇÃO
+================================= -->
+
+<header>
+    <div class="container navbar">
+
+        <a href="/" class="brand">
+            <img src="/images/lunaris-icon.png" alt="Símbolo Lunaris">
+
+            <div>
+                <div class="brand-name">LUNARIS</div>
+                <span class="brand-subtitle">ROLEPLAY</span>
+            </div>
+        </a>
+
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Abrir menu">
+            ☰
+        </button>
+
+        <ul class="nav-links" id="navLinks">
+
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#universo">Universo</a></li>
+            <li><a href="#elementos">Elementos</a></li>
+            <li><a href="#experiencia">Experiência</a></li>
+            <li><a href="#galeria">Galeria</a></li>
+
+            <li>
+                <a href="#comunidade" class="nav-button">
+                    Entrar no Lunaris
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+</header>
+
+
+<!-- ================================
+     HERO
+================================= -->
+
+<main>
+
+    <section class="hero" id="inicio">
+
+        <div class="container">
+
+            <div class="hero-content">
+
+                <img src="/images/lunaris-icon.png"
+                     alt="Emblema do Lunaris"
+                     class="hero-emblem">
+
+                <p class="hero-overline">
+                    UM UNIVERSO DE POSSIBILIDADES
+                </p>
+
+                <h1>
+                    LUNARIS
+                    <span>ROLEPLAY</span>
+                </h1>
+
+                <p class="hero-description">
+                    Onde antigas forças despertam, reinos se erguem
+                    e cada história pode mudar o destino de um mundo.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a href="#comunidade" class="button button-primary">
+                        Descubra Lunaris
+                    </a>
+
+                    <a href="#universo" class="button button-outline">
+                        Explorar universo
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="hero-scroll">
+            Explore o desconhecido ↓
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         INTRODUÇÃO
+    ================================= -->
+
+    <section class="section introduction">
+
+        <div class="container">
+
+            <p class="section-label">
+                Mais do que um servidor
+            </p>
+
+            <h2 class="section-title">
+                Uma história que <span class="gold-text">você constrói.</span>
+            </h2>
+
+            <p class="section-description">
+                Lunaris é um universo de Minecraft Roleplay
+                construído por jogadores, onde civilizações,
+                personagens e acontecimentos dão vida a um mundo
+                em constante transformação.
+            </p>
+
+            <div class="intro-quote">
+                "O destino de um mundo não é escrito por aqueles
+                que o observam, mas por aqueles que ousam fazer
+                parte dele."
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         UNIVERSO
+    ================================= -->
+
+    <section class="section universe" id="universo">
+
+        <div class="container">
+
+            <div class="universe-header">
+
+                <p class="section-label">
+                    Terras além do horizonte
+                </p>
+
+                <h2 class="section-title">
+                    Um mundo de <span class="gold-text">mistérios.</span>
+                </h2>
+
+                <p class="section-description">
+                    Explore dimensões desconhecidas, descubra
+                    territórios extraordinários e acompanhe o
+                    desenvolvimento de reinos e civilizações.
+                </p>
+
+            </div>
+
+            <div class="universe-grid">
+
+                <article class="universe-card">
+
+                    <img src="/images/lago.png"
+                         alt="Paisagem de Lunaris">
+
+                    <div class="card-content">
+
+                        <span>Territórios</span>
+
+                        <h3>Terras de Lunaris</h3>
+
+                        <p>
+                            Um mundo repleto de paisagens,
+                            construções e lugares esperando
+                            para serem descobertos.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="universe-card">
+
+                    <img src="/images/end.png"
+                         alt="Dimensão do End">
+
+                    <div class="card-content">
+
+                        <span>Dimensões</span>
+
+                        <h3>Além do conhecido</h3>
+
+                        <p>
+                            Existem lugares que desafiam
+                            tudo aquilo que os habitantes
+                            acreditam conhecer.
+                        </p>
+
+                    </div>
+
+                </article>
+
+
+                <article class="universe-card">
+
+                    <img src="/images/trio.png"
+                         alt="Personagens de Lunaris">
+
+                    <div class="card-content">
+
+                        <span>Personagens</span>
+
+                        <h3>Histórias e destinos</h3>
+
+                        <p>
+                            Cada personagem possui sua própria
+                            jornada, seus objetivos e seu lugar
+                            na história.
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         ELEMENTOS
+    ================================= -->
+
+
+    <!-- ================================
+         MITOLOGIA
+    ================================= -->
+
+    <section class="section" id="mitologia">
+
+        <div class="container">
+
+            <p class="section-label">
+                Os mistérios da existência
+            </p>
+
+            <h2 class="section-title">
+                Além dos limites da
+                <span class="gold-text">realidade.</span>
+            </h2>
+
+            <p class="section-description">
+                Muito além das fronteiras dos reinos existe algo
+                maior. Uma mitologia repleta de entidades ancestrais,
+                dimensões desconhecidas e forças sobrenaturais que
+                desafiam a compreensão dos mortais.
+            </p>
+
+            <div class="elements-grid">
+
+                <article class="element-card ice">
+                    <div class="element-symbol">✧</div>
+
+                    <h3>Mitologia Cósmica</h3>
+
+                    <p>
+                        Descubra a origem das forças que governam
+                        a existência, conheça entidades extraordinárias
+                        e desvende os mistérios por trás da criação.
+                    </p>
+                </article>
+
+                <article class="element-card fire">
+                    <div class="element-symbol">⌘</div>
+
+                    <h3>Fenômenos Sobrenaturais</h3>
+
+                    <p>
+                        Explore dimensões, encontre relíquias
+                        misteriosas e investigue acontecimentos
+                        que desafiam as leis da realidade.
+                    </p>
+                </article>
+
+                <article class="element-card fire">
+                    <div class="element-symbol">☼</div>
+
+                    <h3>Ascensão e Poder</h3>
+
+                    <p>
+                        Evolua além dos limites conhecidos.
+                        Descubra habilidades extraordinárias
+                        e enfrente desafios cada vez maiores.
+                    </p>
+                </article>
+
+                <article class="element-card ice">
+                    <div class="element-symbol">♜</div>
+
+                    <h3>Reinos e Civilizações</h3>
+
+                    <p>
+                        Construa sua história em um mundo de
+                        civilizações, conflitos, alianças e
+                        acontecimentos que transformam o universo.
+                    </p>
+                </article>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================
+         EXPERIÊNCIA
+    ================================= -->
+
+    <section class="section experience" id="experiencia">
+
+        <div class="container">
+
+            <p class="section-label">
+                Sua jornada começa aqui
+            </p>
+
+            <h2 class="section-title">
+                Viva o <span class="gold-text">Roleplay.</span>
+            </h2>
+
+            <p class="section-description">
+                Não existe uma única maneira de fazer parte
+                de Lunaris. Seu caminho depende das escolhas
+                que você faz e das histórias que decide viver.
+            </p>
+
+            <div class="experience-layout">
+
+                <div class="experience-image">
+
+                    <img src="/images/varen1.png"
+                         alt="Aventureiros de Lunaris">
+
+                </div>
+
+                <div class="experience-list">
+
+                    <article class="experience-item">
+
+                        <span class="experience-number">I</span>
+
+                        <div>
+                            <h3>Construa sua história</h3>
+
+                            <p>
+                                Crie um personagem, desenvolva
+                                sua identidade e encontre seu
+                                lugar no universo.
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="experience-item">
+
+                        <span class="experience-number">II</span>
+
+                        <div>
+                            <h3>Faça parte de um reino</h3>
+
+                            <p>
+                                Conheça civilizações, participe
+                                de suas atividades e ajude a
+                                transformar seus territórios.
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="experience-item">
+
+                        <span class="experience-number">III</span>
+
+                        <div>
+                            <h3>Descubra o desconhecido</h3>
+
+                            <p>
+                                Explore masmorras, enfrente
+                                desafios e desvende os segredos
+                                espalhados pelo mundo.
+                            </p>
+                        </div>
+
+                    </article>
+
+
+                    <article class="experience-item">
+
+                        <span class="experience-number">IV</span>
+
+                        <div>
+                            <h3>Faça parte da comunidade</h3>
+
+                            <p>
+                                Conheça outros jogadores,
+                                construa alianças e participe
+                                de acontecimentos coletivos.
+                            </p>
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         GALERIA
+    ================================= -->
+
+    <section class="section" id="galeria">
+
+        <div class="container">
+
+            <div class="gallery-header">
+
+                <p class="section-label">
+                    Fragmentos de um universo
+                </p>
+
+                <h2 class="section-title">
+                    O mundo de <span class="gold-text">Lunaris.</span>
+                </h2>
+
+                <p class="section-description">
+                    Alguns registros das paisagens,
+                    personagens e aventuras que fazem
+                    parte deste universo.
+                </p>
+
+            </div>
+
+            <div class="gallery-grid">
+
+                <div class="gallery-item">
+
+                    <img src="/images/lago.png"
+                         alt="Paisagem de Lunaris">
+
+                    <span class="gallery-caption">
+                            Terras desconhecidas
+                        </span>
+
+                </div>
+
+
+                <div class="gallery-item">
+
+                    <img src="/images/end.png"
+                         alt="Dimensão do End">
+
+                    <span class="gallery-caption">
+                            Além das dimensões
+                        </span>
+
+                </div>
+
+
+                <div class="gallery-item">
+
+                    <img src="/images/trio.png"
+                         alt="Personagens do servidor">
+
+                    <span class="gallery-caption">
+                            Aqueles que escrevem a história
+                        </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================
+         COMUNIDADE
+    ================================= -->
+
+    <section class="section community" id="comunidade">
+
+        <div class="container">
+
+            <img src="/images/lunaris-icon.png"
+                 alt="Símbolo Lunaris"
+                 class="community-symbol">
+
+            <p class="section-label">
+                Seu próximo capítulo começa agora
+            </p>
+
+            <h2 class="section-title">
+                O universo espera por você.
+            </h2>
+
+            <p class="section-description">
+                Conheça nossa comunidade, descubra como jogar
+                e prepare-se para fazer parte das histórias
+                que estão sendo construídas em Lunaris.
+            </p>
+
+            <div class="hero-actions">
+
+                <a href="https://discord.gg/T6QfGkgRq8"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="button button-primary">
+                    Entrar no Discord
+                </a>
+
+                <a href="#inicio"
+                   class="button button-outline">
+                    Voltar ao início
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================================
+     RODAPÉ
+================================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-content">
+
+            <div class="footer-brand">
+
+                <img src="/images/lunaris-icon.png"
+                     alt="Lunaris">
+
+                <div>
+                    <h3>LUNARIS</h3>
+                    <p>Um universo além do comum.</p>
+                </div>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="#inicio">Início</a>
+                <a href="#universo">Universo</a>
+                <a href="#galeria">Galeria</a>
+
+                <a href="https://discord.gg/T6QfGkgRq8"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    Discord
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 LunarisRP. Todos os direitos reservados.
+            <br><br>
+            LunarisRP é um projeto independente de Minecraft Roleplay.
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- ================================
+     JAVASCRIPT
+================================= -->
+
+<script>
+
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+    });
+
+    document.querySelectorAll(".nav-links a").forEach(link => {
+
+        link.addEventListener("click", () => {
+            navLinks.classList.remove("active");
+        });
+
+    });
+
+</script>
+
+</body>
+</html>
